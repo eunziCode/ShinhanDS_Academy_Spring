@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="samsung" class="com.shinhan.mavenProject.section2.SamsungTV">
+		<constructor-arg name="model" value="랄랄라"></constructor-arg>
+	</bean>
+	
+	<bean id="lg" class="com.shinhan.mavenProject.section2.LgTV"></bean>
+	<!-- xmlns : xml namespace, 접두사가 없는 태그는 beans 기술임을 의미 
+		 xsi : xml schema(구조,문법)을 따르는 문서
+		 schemaLocation : schema의 위치 (파일이름 spring-beans.xsd)
+		 beans : bean(객체)들을 정의
+	-->
+
+</beans>
