@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * Handles requests for the application home page.
+ * <mvc:annotation-driven />
+ * Spring은 POJO 방식
  */
 @Controller
 public class HomeController {
@@ -31,9 +32,11 @@ public class HomeController {
 		
 		String formattedDate = dateFormat.format(date);
 		
+		// model.addAttribute() : request.setAttribute()와 같은 의미
 		model.addAttribute("serverTime", formattedDate );
+		model.addAttribute("myName", "박은지");
 		
-		return "home";
+		return "home"; // /WEB-INF/views/home.jsp
 	}
 	
 }

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean id="car1" class="com.shinhan.mavenProject.section4.CarVO">
+		<property name="model" value="아반떼"></property>
+		<property name="price" value="3000"></property>
+		<property name="color" value="white"></property>
+	</bean>
+	
+	<bean id="license1" class="com.shinhan.mavenProject.section4.LicenseVO">
+		<property name="title" value="정보처리기사"></property>
+		<property name="year" value="2021"></property>
+	</bean>
+	<bean id="license2" class="com.shinhan.mavenProject.section4.LicenseVO">
+		<property name="title" value="SQLD"></property>
+		<property name="year" value="2024"></property>
+	</bean>
+	
+	<bean id="book1" class="com.shinhan.mavenProject.section4.BookVO">
+		<constructor-arg name="title" value="이것이자바다"/>
+		<constructor-arg name="price" value="5000"/>
+		<constructor-arg name="kind" value="IT"/>
+	</bean>
+	<bean id="book2" class="com.shinhan.mavenProject.section4.BookVO">
+		<property name="title" value="자바로 웹을 다루는 기술"/>
+		<property name="price" value="5000"/>
+		<property name="kind" value="IT"/>
+	</bean>
+	
+	<bean id="person1" class="com.shinhan.mavenProject.section4.PersonVO">
+		<property name="name" value="박은지"></property>
+		<property name="age" value="27"></property>
+		<property name="car" ref="car1"></property>
+		<property name="major">
+			<list>
+				<value>컴공</value>
+				<value>경제</value>
+			</list>
+		</property>
+		<property name="licenseList">
+			<list>
+				<ref bean="license1"/>
+				<ref bean="license2"/>
+			</list>
+		</property>
+		<property name="bookMap">
+			<map>
+				<entry>
+					<key>
+						<value>내책1</value>
+					</key>
+					<ref bean="book1"/>
+				</entry>
+				<entry>
+					<key>
+						<value>내책2</value>
+					</key>
+					<ref bean="book2"/>
+				</entry>
+			</map>
+		</property>
+		<property name="friends">
+			<set>
+				<value>test1</value>
+				<value>test2</value>
+			</set>
+		</property>
+		<property name="myProfile">
+			<props>
+				<prop key="email">test@gmail.com</prop>
+				<prop key="phone">010-1234-5678</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- autowire : 자동으로 DT함
+	byType : Type이 같으면 자동으로 넣음 ▶ 같은 타입이 여러개 선언되었는데 사용이 하나이어야 하는 경우 오류!
+	byName : Name이 같으면 자동으로 넣음 ▶ VO의 field 이름과 Bean의 id의 이름이 같다는 의미
+	 -->
+	<bean id="person2" class="com.shinhan.mavenProject.section4.PersonVO" autowire="byType">
+	</bean>
+
+
+</beans>

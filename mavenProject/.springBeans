@@ -9,6 +9,10 @@
 	<configs>
 		<config>src/main/resources/di2.xml</config>
 		<config>src/main/resources/di3.xml</config>
+		<config>src/main/resources/di4.xml</config>
+		<config>src/main/resources/di6.xml</config>
+		<config>src/main/resources/aop7.xml</config>
+		<config>src/main/resources/aop8.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
