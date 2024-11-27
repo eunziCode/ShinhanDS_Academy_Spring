@@ -2,8 +2,9 @@ package com.shinhan.mavenProject.section8;
 
 import org.springframework.stereotype.Component;
 
-// Target...주관심사(core concern), 업무로직
-// @Component("cal") == <bean id="cal"  class="com.shinhan.mavenProject.section8.Calculator" />
+/* Target...주관심사(core concern), 업무로직
+   @Component("cal")
+== <bean id="cal"  class="com.shinhan.mavenProject.section8.Calculator" /> */
 @Component("cal")
 public class Calculator {
 	public void add() {
