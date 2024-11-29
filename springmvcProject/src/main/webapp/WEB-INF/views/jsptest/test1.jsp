@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>2024-11-27 실습</title>
 </head>
 <body>
 	<h1>이름은 ${myname}</h1>

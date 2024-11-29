@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>2024-11-28 실습</title>
 </head>
 <body>
 	<h1>first2.jsp 열림</h1>
