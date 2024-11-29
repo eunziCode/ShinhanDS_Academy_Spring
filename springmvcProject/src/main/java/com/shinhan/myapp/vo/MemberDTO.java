@@ -1,4 +1,4 @@
-package com.shinhan.myapp.model;
+package com.shinhan.myapp.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

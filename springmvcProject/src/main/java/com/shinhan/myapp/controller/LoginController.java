@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.shinhan.myapp.model.MemberDTO;
 import com.shinhan.myapp.model.MemberService;
+import com.shinhan.myapp.vo.MemberDTO;
 
 @Controller
 @RequestMapping("/auth")

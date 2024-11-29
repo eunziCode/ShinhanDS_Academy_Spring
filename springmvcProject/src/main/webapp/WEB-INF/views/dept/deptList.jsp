@@ -5,21 +5,18 @@
 <html>
 <head>
   <%@ include file="../common/bootstrap.jsp"%>
-  <%@ include file="../common/header.jsp"%> 
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style>
-  table, th, tr, td {
-  	border: 1px solid gray;
-  	border-collapse: collapse;
-  	text-align: center;
-  	padding: 5px;
-  }
-  th { background-color: lightgray; }
-</style>
+<script>
+	var result = "${result}";
+	if(result != ""){
+		alert(result);
+	}
+</script>
 </head>
 <body>
 <div class="container">
+	<%@ include file="../common/header.jsp"%>
 	<h2>부서 등록</h2>  
 	<table class="table table-striped-columns table-hover">
 		<tr>
