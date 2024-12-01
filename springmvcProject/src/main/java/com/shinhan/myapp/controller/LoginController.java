@@ -25,7 +25,17 @@ public class LoginController {
 	
 	@GetMapping("/login.do")
 	public void loginPage() {
-		
+		 
+	}
+	@GetMapping("/main.do")
+	public void mainPage() {
+		 
+	}
+	
+	@GetMapping("/logout.do")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:login.do";
 	}
 	
 	@PostMapping("/login.do")
