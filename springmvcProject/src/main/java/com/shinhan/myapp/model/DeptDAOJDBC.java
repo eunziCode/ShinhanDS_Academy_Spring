@@ -16,14 +16,16 @@ import org.springframework.stereotype.Repository;
 
 import com.shinhan.myapp.vo.DeptDTO;
 
+import lombok.extern.slf4j.Slf4j;
 import net.firstzone.util.DBUtil;
 
 /* @Repository
 == @Component + DAO
 == <bean id="deptDAO2" class="ÆĞÅ°Áö.DeptDAO"></bean> */
 
+@Slf4j
 @Repository("deptDAO2")
-public class DeptDAO {
+public class DeptDAOJDBC implements DeptDAOInterface {
 	// @Autowired : TypeÀÌ °°À¸¸é ÀÚµ¿À¸·Î Injection (IOC, DI)
 	@Autowired 
 	DataSource ds;
@@ -44,7 +46,6 @@ public class DeptDAO {
 	int result;
 	
 	public List<DeptDTO> selectAll() {
-		// ëª¨ë“  ì§ì›?„ ì¡°íšŒ?•˜ê¸?
 		
 		List<DeptDTO> deptlist = new ArrayList<DeptDTO>();
 
@@ -64,6 +65,7 @@ public class DeptDAO {
 			DBUtil.dbDisconnect(conn, st, rs);
 		}
 
+		log.info("deptÁ¶È¸°Ç¼ö(JDBC):" + deptlist.size());
 		return deptlist;
 	}
 
@@ -90,11 +92,9 @@ public class DeptDAO {
 		return dept;
 	}
 
-	// DB?— ?…? ¥
 	public int insert(DeptDTO dept) {
 		int result = 0;
-		
-		// Statement?Š” ?(binding ë³??ˆ˜ ì§??›X) ?†’ PreparedStatementê°? Statementë¥? ?ƒ?†ë°›ì•„ ?ë¥? ì§??›?•¨
+
 		try {
 			conn = ds.getConnection();
 			st = conn.prepareStatement(sql_insert);
@@ -103,7 +103,7 @@ public class DeptDAO {
 			st.setString(2, dept.getDepartment_name());
 			
 			if(dept.getManager_id()==0)
-				st.setNull(3, Types.NULL); // ?‚¬?š©?ê°? 0?„ ?…? ¥?•˜ë©? nullë¡? insert
+				st.setNull(3, Types.NULL); 
 			else
 				st.setInt(3, dept.getManager_id());
 			
@@ -117,15 +117,12 @@ public class DeptDAO {
 			DBUtil.dbDisconnect(conn, st, null);
 		}
 
-		// resultê°? 1?´ë©? ?„±ê³?
 		return result;
 	}
 
-	// ?ˆ˜? •
 	public int update(DeptDTO dept) {
 		int result = 0;
 		
-		// Statement?Š” ?(binding ë³??ˆ˜ ì§??›X) ?†’ PreparedStatementê°? Statementë¥? ?ƒ?†ë°›ì•„ ?ë¥? ì§??›?•¨
 		try {
 			conn = ds.getConnection();
 			st = conn.prepareStatement(sql_update);
@@ -143,29 +140,25 @@ public class DeptDAO {
 			DBUtil.dbDisconnect(conn, st, null);
 		}
 
-		// resultê°? 1?´ë©? ?„±ê³?
 		return result;
 	}
 
-	// ?‚­? œ
 	public int delete(int dept_id) {
 		int result = 0;
-		
-		// Statement?Š” ?(binding ë³??ˆ˜ ì§??›X) ?†’ PreparedStatementê°? Statementë¥? ?ƒ?†ë°›ì•„ ?ë¥? ì§??›?•¨
+
 		try {
 			conn = ds.getConnection();
 			
-			// ??™ ì»¤ë°‹ ë°©ì?, ?”°ë¡? ?‚¬?š©?•˜ì§? ?•Š?œ¼ë©? ê¸°ë³¸? ?œ¼ë¡? ??™ ì»¤ë°‹?¨
 			conn.setAutoCommit(false);
 			st = conn.prepareStatement(sql_delete);
 			st.setInt(1, dept_id);
 
 			result = st.executeUpdate();
 			
-			conn.commit(); // DB?— ë°˜ì˜
+			conn.commit(); 
 		} catch (SQLException e) {
 			try {
-				conn.rollback(); // DB?— ?‘?—…?•œ ?‚´?š© ì·¨ì†Œ
+				conn.rollback(); 
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -174,7 +167,6 @@ public class DeptDAO {
 			DBUtil.dbDisconnect(conn, st, null);
 		}
 
-		// resultê°? 1?´ë©? ?„±ê³?
 		return result;
 	}
 

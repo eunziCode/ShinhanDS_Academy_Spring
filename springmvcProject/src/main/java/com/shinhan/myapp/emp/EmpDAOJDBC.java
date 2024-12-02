@@ -1,7 +1,5 @@
 package com.shinhan.myapp.emp;
 
-//java=>JDBC=>Oracle?´ ê°œë°œ ojdbc8.jar
-
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -20,12 +18,13 @@ import org.springframework.stereotype.Repository;
 
 import com.shinhan.myapp.vo.DeptDTO;
 
+import lombok.extern.slf4j.Slf4j;
 import net.firstzone.util.DBUtil;
 import net.firstzone.util.DateUtil;
 
-
+@Slf4j
 @Repository
-public class EmpDAO {
+public class EmpDAOJDBC {
 
 	@Autowired
 	DataSource ds;
@@ -97,14 +96,14 @@ public class EmpDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			DBUtil.dbDisconnect(conn, st, rs); // Connection ë°˜ë‚©
+			DBUtil.dbDisconnect(conn, st, rs); 
 		}
 		return joblist;
 
 	}
 
 	public List<EmpJoinDTO> selectJoin(String jobid) {
-		// 1.DTOë§Œë“ ?‹¤ 2.MAP?‚¬?š©?•œ?‹¤.
+		
 		String sql = 
 				" select employee_id, first_name, salary, department_name, city, country_name"+
 				" from employees join departments using(department_id)"+
@@ -138,9 +137,8 @@ public class EmpDAO {
 
 	}
 
-	// 1.?Š¹? •ë¶??„œ?˜ ì§ì›ì¡°íšŒ where department_id = ?
 	public List<EmpDTO> selectByDept(int dept_id) {
-		// ëª¨ë“  ì§ì›?„ ì¡°íšŒ?•˜ê¸?
+
 		String sql = "select * from employees where department_id = ?";
 		 
 		PreparedStatement st = null;
@@ -148,9 +146,9 @@ public class EmpDAO {
 		List<EmpDTO> emplist = new ArrayList<EmpDTO>();
 		try {
 			conn = ds.getConnection();
-			st = conn.prepareStatement(sql); // SQLë¬? ì¤?ë¹?
-			st.setInt(1, dept_id); // ??— ê°’ì„ ì±„ìš°ê¸?
-			rs = st.executeQuery(); // DB?— ê°??„œ ?‹¤?–‰?•˜ê³? ê²°ê³¼ë¥? ê°?? ¸?˜¨?‹¤.
+			st = conn.prepareStatement(sql); 
+			st.setInt(1, dept_id); 
+			rs = st.executeQuery(); 
 			while (rs.next()) {
 				EmpDTO emp = makeEmp2(rs);
 				emplist.add(emp);
@@ -164,9 +162,8 @@ public class EmpDAO {
 		return emplist;
 	}
 
-	// 2.?Š¹? •job_id?¸ ì§ì›ì¡°íšŒ where job_id = ?
 	public List<EmpDTO> selectByJob(String job_id) {
-		// ëª¨ë“  ì§ì›?„ ì¡°íšŒ?•˜ê¸?
+
 		String sql = "select * from employees where job_id = ?";
 	 
 		PreparedStatement st = null;
@@ -190,9 +187,8 @@ public class EmpDAO {
 		return emplist;
 	}
 
-	// 3.ê¸‰ì—¬ê°? ??´?ƒ?¸ ì§ì›ì¡°íšŒ where salary >= ?
 	public List<EmpDTO> selectBySalary(double salary) {
-		// ëª¨ë“  ì§ì›?„ ì¡°íšŒ?•˜ê¸?
+
 		String sql = "select * from employees where salary >= ?";
 	 
 		PreparedStatement st = null;
@@ -200,12 +196,12 @@ public class EmpDAO {
 		List<EmpDTO> emplist = new ArrayList<EmpDTO>();
 		try {
 			conn = ds.getConnection();
-			st = conn.prepareStatement(sql); // SQLë¬? ì¤?ë¹?
-			st.setDouble(1, salary); // ??— ê°’ì„ ì±„ìš°ê¸?
-			rs = st.executeQuery(); // DB?— ê°??„œ ?‹¤?–‰?•˜ê³? ê²°ê³¼ë¥? ê°?? ¸?˜¨?‹¤.
-			while (rs.next()) { // ?‹¤?Œdataê°? ?ˆ?Š”ì§??
-				EmpDTO emp = makeEmp2(rs); // ?•œê±´ì„ DTOë§Œë“ ?‹¤.
-				emplist.add(emp); // ?—¬?Ÿ¬ê±´ì´ë¯?ë¡? Collection?— ?‹´ê¸?
+			st = conn.prepareStatement(sql); 
+			st.setDouble(1, salary); 
+			rs = st.executeQuery(); 
+			while (rs.next()) { 
+				EmpDTO emp = makeEmp2(rs); 
+				emplist.add(emp); 
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -216,10 +212,8 @@ public class EmpDAO {
 		return emplist;
 	}
 
-	// 4.ë¶??„œ, ì§ì±…, ê¸‰ì—¬, ?…?‚¬?¼ ì¡°ê±´?œ¼ë¡? ì¡°íšŒ
-	// where department_id = ? and job_id = ? and salary >= ? and hire_date >= ?
 	public List<EmpDTO> selectByCondition(Map<String, Object> map) {
-		// ëª¨ë“  ì§ì›?„ ì¡°íšŒ?•˜ê¸?
+
 		String sql = "select * " + " from employees " 
 		+ " where (-1 = ? or department_id = ?) "
 		+ " and ('-1' = ? or job_id = ? )" 
@@ -230,12 +224,13 @@ public class EmpDAO {
 		List<EmpDTO> emplist = new ArrayList<EmpDTO>();
 		try {
 			conn = ds.getConnection();
-			st = conn.prepareStatement(sql); // SQLë¬? ì¤?ë¹?			
+			st = conn.prepareStatement(sql); 		
 			String str_deptid = (String)map.get("deptid");
 			int deptid = Integer.parseInt(str_deptid);
 			String str_sal = (String) map.get("salary");
 			String str_hdate = (String) map.get("hdate");
-			Date hdate = DateUtil.convertSqlDate(DateUtil.convertDate(str_hdate));			
+			Date hdate = DateUtil.convertSqlDate(DateUtil.convertDate(str_hdate));	
+			
 			st.setInt(1, deptid);  
 			st.setInt(2, deptid);  
 			st.setString(3, (String) map.get("jobid")); 
@@ -254,11 +249,12 @@ public class EmpDAO {
 		} finally {
 			DBUtil.dbDisconnect(conn, st, rs);
 		}
+		log.info("empDAOJDBC Á¶°Ç Á¶È¸:"+emplist.size()+"°Ç");
 		return emplist;
 	}
 
 	public List<EmpDTO> selectAll() {
-		// ëª¨ë“  ì§ì›?„ ì¡°íšŒ?•˜ê¸?
+
 		String sql = "select * from employees order by 1";
 	 
 		Statement st = null;
@@ -282,7 +278,7 @@ public class EmpDAO {
 	}
 
 	public EmpDTO selectById(int empid) {
-		// ?Š¹? • ì§ì›?„ ì¡°íšŒ?•˜ê¸?
+
 		String sql = "select  *  from employees where employee_id = " + empid;
 	 
 		Statement st = null;
@@ -304,12 +300,10 @@ public class EmpDAO {
 		return emp;
 	}
 
-	// DB?— ?…? ¥
 	public int insert(EmpDTO emp) {
 		int result = 0;
 		String sql = "insert into employees values (?,?,?,?,?,?,?,?,?,?,?)";
 		 
-		// Statement?Š” ?(bindingë³??ˆ˜ ì§??›?•ˆ?•¨) <------PreparedStatement?Š” ì§??›
 		PreparedStatement st = null;
 		try {
 			conn = ds.getConnection();
@@ -385,7 +379,6 @@ public class EmpDAO {
 		return result;
 	}
 
-	// ?‚­? œ
 	public int delete(int empid) {
 		int result = 0;
 		String sql = "delete from employees where EMPLOYEE_ID = ? ";
@@ -418,6 +411,9 @@ public class EmpDAO {
 		return emp;
 	}
 
+	/* ±âÁ¸ JDBC ÇÁ·Î±×·¥ÀÇ ´ÜÁ¡
+	   - SQL¹®ÀÌ JAVA¿Í ¼¯¿©ÀÖÀ½
+	   - DB Table(Object)ÄÃ·³°ú JAVA VOÀÇ field¸¦ Á÷Á¢ Mapping */
 	private static EmpDTO makeEmp(ResultSet rs) throws SQLException {
 		EmpDTO emp = new EmpDTO();
 		emp.setCommission_pct(rs.getDouble("Commission_pct"));
@@ -434,5 +430,4 @@ public class EmpDAO {
 
 		return emp;
 	}
-
 }

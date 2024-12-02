@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +18,6 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 import com.shinhan.myapp.emp.EmpDTO;
 import com.shinhan.myapp.emp.EmpService;
 import com.shinhan.myapp.model.DeptService;
-import com.shinhan.myapp.model.MemberService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +40,41 @@ public class EmpController {
 
 	final EmpService empService;
 	final DeptService deptService;
+	
+	@GetMapping("/listByJobJoin2.do")
+	public String listByJobJoin2(String job, Model model) {
+		model.addAttribute("empDatas", empService.selectByJobJoin2(job));
+		
+		return "emp/empListTable3";
+	}
+	
+	@GetMapping("/listByJobJoin.do")
+	public String listByJobJoin(String job, Model model) {
+		model.addAttribute("empDatas", empService.selectByJobJoin(job));
+		
+		return "emp/empListTable2";
+	}
+	
+	@GetMapping("/listByDept.do")
+	public String listByDept(int deptid, Model model) {
+		model.addAttribute("empDatas", empService.selectByDept(deptid));
+		
+		return "emp/empListTable";
+	}
+	
+	@GetMapping("/listByJob.do")
+	public String listByJob(String job, Model model) {
+		model.addAttribute("empDatas", empService.selectByJob(job));
+		
+		return "emp/empListTable";
+	}
+	
+	@GetMapping("/listBySalary.do")
+	public String listBySalary(double salary, Model model) {
+		model.addAttribute("empDatas", empService.selectBySalary(salary));
+
+		return "emp/empListTable";
+	}
 
 	@GetMapping("/list.do")
 	public String selectAll(Model model, HttpServletRequest request) {
@@ -51,7 +84,6 @@ public class EmpController {
 			model.addAttribute("resultMessage", 
 					map.get("resultMessage"));
 		}
-		
 		
 		model.addAttribute("joblist", empService.selectAllJobService());
 		model.addAttribute("deptlist", deptService.selectAllService());
@@ -114,9 +146,3 @@ public class EmpController {
 	}
  
 }
-
-	
-	
-	
-	
-	

@@ -26,11 +26,24 @@
         </property>
         <property name="fileEncoding" value="UTF-8" />
  	</bean>
+ 	
+ 	<!-- sqlSession을 생성해줌 -->
+ 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation" value="classpath:mybatis/sqlMapConfig.xml" />
+		<property name="mapperLocations" value="classpath:mybatis/mappers/*Mapper.xml" />
+	</bean>
 	
-	<!-- JNDI로 Connection Pooling 사용하기 -->
+	<!-- SQL문 실행하여 DB객체와 JAVA객체를 Mapping해줌 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory"></constructor-arg>
+	</bean>
+ 	
+	
+	<!-- 3.JNDI로 Connection Pooling 사용하기 -->
 	<jee:jndi-lookup jndi-name="jdbc/myoracle" id="dataSource" resource-ref="true"></jee:jndi-lookup>
 	
-	<!-- Connection Pooling 사용하기 -->
+	<!-- 2.Connection Pooling 사용하기 -->
 	<!-- <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
 		<property name="driverClassName" value="${driverClassName}" />
 		<property name="url" value="${url}" />
@@ -38,7 +51,7 @@
 		<property name="password" value="${password}" />
 	</bean> -->
 	
-	<!-- DriverManager 사용하기 -->
+	<!-- 1.DriverManager 사용하기 -->
 	<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="${driverClassName}" />
 		<property name="url" value="${url}" />

@@ -10,6 +10,12 @@
 <body>
 	<div class="container">
 		<%@ include file="../common/header.jsp"%>
+		<hr>
+		<button id="btnSalary" class="btn btn-danger">조회(only급여)</button>
+		<button id="btnJob" class="btn btn-primary">조회(only직책)</button>
+		<button id="btnDept" class="btn btn-info">조회(only부서)</button>
+		<button id="btnJobJoin" class="btn btn-secondary">조회(only직책join)</button>
+		<button id="btnJobJoin2" class="btn btn-secondary">조회(only직책join-map)</button>
 		<hr>		 
 			<div class="input-group mt-5 mb-5">
 				<span class="input-group-text">부서</span> 
@@ -66,10 +72,71 @@
 	 
    var d = new Date();
    d.setFullYear(d.getFullYear() - 20) ;
-   $('[name="hire_date"]').val(d.toISOString().split("T")[0] );
+   $('[name="hire_date"]').val("1900-01-01");
    $("#btn_condition").on("click", f_ajax);
    $("#btn_condition").trigger("click"); //이벤트 호출 
-});  
+   $("#btnSalary").on("click", f_salary);
+   $("#btnJob").on("click", f_job);
+   $("#btnDept").on("click", f_dept);
+   $("#btnJobJoin").on("click", f_jobjoin);
+   $("#btnJobJoin2").on("click", f_jobjoin2);
+});
+
+function f_jobjoin2(){
+	$.ajax({
+		url:"${path}/emp/listByJobJoin2.do",
+		data:{job:$("select[name='job_id']").val()},
+		success:function(responseData){
+			$("#table_here").html(responseData);
+		},
+		error:function(){}
+	});
+} 
+
+function f_jobjoin(){
+	$.ajax({
+		url:"${path}/emp/listByJobJoin.do",
+		data:{job:$("select[name='job_id']").val()},
+		success:function(responseData){
+			$("#table_here").html(responseData);
+		},
+		error:function(){}
+	});
+} 
+ 
+function f_dept(){
+	$.ajax({
+		url:"${path}/emp/listByDept.do",
+		data:{deptid:$("select[name='department_id']").val()},
+		success:function(responseData){
+			$("#table_here").html(responseData);
+		},
+		error:function(){}
+	});
+} 
+ 
+function f_job(){
+	$.ajax({
+		url:"${path}/emp/listByJob.do",
+		data:{job:$("select[name='job_id']").val()},
+		success:function(responseData){
+			$("#table_here").html(responseData);
+		},
+		error:function(){}
+	});
+}
+ 
+function f_salary(){
+	$.ajax({
+		url:"${path}/emp/listBySalary.do",
+		data:{salary:$("input[name='salary']").val()},
+		success:function(responseData){
+			$("#table_here").html(responseData);
+		},
+		error:function(){}
+	});
+}
+ 
 function f_ajax(){
   $.ajax({
     url:"${path}/emp/list2.do",

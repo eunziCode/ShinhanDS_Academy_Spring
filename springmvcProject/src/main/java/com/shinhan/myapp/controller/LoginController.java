@@ -53,7 +53,7 @@ public class LoginController {
 			
 			// 세션에 저장하고 업무 시작 → 부서조회로 이동
 			session.setAttribute("loginMember", member);
-			return "redirect:/dept/list.do";
+			return "redirect:/auth/main.do";
 		}
 		// 다시 로그인
 		return "redirect:/auth/login.do";
