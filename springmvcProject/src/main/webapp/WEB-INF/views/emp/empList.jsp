@@ -3,11 +3,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+<%@ include file="../common/bootstrap.jsp" %>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
 </head>
-
 <body>
 	<div class="container">
 		<%@ include file="../common/header.jsp"%>
