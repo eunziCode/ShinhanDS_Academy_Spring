@@ -15,9 +15,13 @@ import javax.servlet.http.HttpSession;
 
 import com.shinhan.myapp.vo.MemberDTO;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @WebFilter : Servlet3버전부터 지원
  */
+
+@Slf4j
 @WebFilter("*.do")
 public class LoginCheckFilter implements Filter {
 
@@ -38,16 +42,16 @@ public class LoginCheckFilter implements Filter {
 		String uri = req.getRequestURI();
 		uri = uri.substring(contextPath.length());
 		
-		System.out.println("contextPath:"+contextPath);
-		System.out.println("요청주소:"+uri);
+		log.info("contextPath:"+contextPath);
+		log.info("요청주소:"+uri);
 		
 		// 요청주소가 로그인이면 요청대로 수행하고 로그인이 아니면 로그인한건지 체크
-		if(!uri.equals("/auth/login.do")) {
+		if(!uri.equals("/auth/login.do") && !uri.startsWith("/rest")) {
 			HttpSession session = req.getSession();
 			MemberDTO member = (MemberDTO)session.getAttribute("loginMember");
 			
 			if(member == null) {
-				System.out.println("로그인 안함");
+				log.info("로그인 안함");
 				HttpServletResponse res = (HttpServletResponse)response;
 				res.sendRedirect(contextPath + "/auth/login.do");
 				return;

@@ -26,6 +26,14 @@ public class EmpDAOMybatis implements EmpDAOInterface {
 	 return값 = sqlSession.selectMap("namespace와 mapper의 id", parameter)
 	*/
 
+	public List<EmpDTO> selectByArray(List<Integer> deptArr){
+		List<EmpDTO> emplist = sqlSession.selectList(namespace + "selectByArray", deptArr);
+		
+		log.info("파라미터(list,array):" + emplist.size()+"건");
+		
+		return emplist;
+	}
+	
 	public List<Map<String, Object>> selectJoin2(String jobid) {
 		List<Map<String, Object>> emplist = sqlSession.selectList(namespace + "selectJoin2", jobid);
 		

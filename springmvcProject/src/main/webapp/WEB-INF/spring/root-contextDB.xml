@@ -39,17 +39,36 @@
 		<constructor-arg ref="sqlSessionFactory"></constructor-arg>
 	</bean>
  	
+<!--	1. 사용자가 Browser 요청
+		2. Filter → FrontController → Controller
+		3. Service
+		4. DAOMybatis
+		5. sqlSession
+		6. sqlSessionFactory
+		7. dataSource(dataSourceOriginal + log 남기는 방법)
+		8. dataSourceOriginal
+		9. DB -->
+	<bean id="dataSource"  class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+		<constructor-arg ref="dataSourceOriginal" />
+		<property name="logFormatter" >
+			<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+			<property name="loggingType" value="MULTI_LINE"></property>
+			<property name="sqlPrefix" value="[ SQL문장 ] "></property>
+			</bean>
+		</property>
+	</bean>
+	
 	
 	<!-- 3.JNDI로 Connection Pooling 사용하기 -->
-	<jee:jndi-lookup jndi-name="jdbc/myoracle" id="dataSource" resource-ref="true"></jee:jndi-lookup>
+	<!-- <jee:jndi-lookup jndi-name="jdbc/myoracle" id="dataSourceOriginal" resource-ref="true"></jee:jndi-lookup> -->
 	
 	<!-- 2.Connection Pooling 사용하기 -->
-	<!-- <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+	<bean id="dataSourceOriginal" class="org.apache.commons.dbcp2.BasicDataSource">
 		<property name="driverClassName" value="${driverClassName}" />
 		<property name="url" value="${url}" />
 		<property name="username" value="${username}" />
 		<property name="password" value="${password}" />
-	</bean> -->
+	</bean>
 	
 	<!-- 1.DriverManager 사용하기 -->
 	<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">

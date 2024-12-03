@@ -12,11 +12,12 @@
 			    <td>순서</td>
 				<td>직원번호</td>
 				<td>fname</td>
-				<td>salary</td>
-				<td>job_id</td>
-				<td>department_name</td>
-				<td>city</td>
-				<td>country_name</td>
+				<td>급여</td>
+				<td>부서이름</td>
+				<td>도시</td>
+				<td>나라</td>
+				<td>직책</td>
+				<td>직책id</td>
 			</tr>
 			<c:forEach items="${empDatas}" var="emp" varStatus="status">
 				<tr>
@@ -31,10 +32,11 @@
 					<td><a href="${path}/emp/detail.do?empid=${emp['EMPLOYEE_ID']}">${emp['FIRST_NAME']}</a>
 					</td>
 					<td>${emp["SALARY"]}</td>
-					<td>${emp["JOB_ID"]}</td>
 					<td>${emp["DEPARTMENT_NAME"]}</td>
 					<td>${emp["CITY"]}</td>
 					<td>${emp["COUNTRY_NAME"]}</td>
+					<td>${emp["JOB_TITLE"]}</td>
+					<td>${emp["JOB_ID"]}</td>
 				</tr>
 			</c:forEach>
 		</table>

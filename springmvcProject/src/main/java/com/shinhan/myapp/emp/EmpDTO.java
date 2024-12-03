@@ -16,15 +16,16 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 public class EmpDTO {
-	int employee_id;
+	// 기본형 Data Type은 null setting 불가 → wrapper class로 변경!
+	Integer employee_id;
 	String first_name;
 	String last_name;
 	String email;
 	String phone_number;
 	Date hire_date;
 	String job_id;
-	double salary;
-	double commission_pct;
-	int manager_id;
-	int department_id;
+	Double salary;
+	Double commission_pct;
+	Integer manager_id;
+	Integer department_id;
 }

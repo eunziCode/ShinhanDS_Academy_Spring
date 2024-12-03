@@ -16,12 +16,12 @@
 				<td>lname</td>
 				<td>email</td>
 				<td>phone</td>
-				<td>job</td>
-				<td>hiredate</td>
-				<td>commission</td>
-				<td>salary</td>
-				<td>manager</td>
-				<td>department</td>
+				<td>직책id</td>
+				<td>입사일</td>
+				<td>comm</td>
+				<td>급여</td>
+				<td>매니저id</td>
+				<td>부서id</td>
 				<td>get요청</td>
 				<td>post요청</td>
 			</tr>

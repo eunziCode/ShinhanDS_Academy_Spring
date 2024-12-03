@@ -14,6 +14,7 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.shinhan.myapp.vo.DeptDTO;
@@ -27,6 +28,7 @@ import net.firstzone.util.DateUtil;
 public class EmpDAOJDBC {
 
 	@Autowired
+	@Qualifier("dataSource")
 	DataSource ds;
 	
 	Connection conn;

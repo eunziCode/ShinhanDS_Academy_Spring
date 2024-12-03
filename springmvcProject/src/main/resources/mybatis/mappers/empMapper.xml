@@ -6,16 +6,30 @@
 <!-- namespace : 이름공간(group), 다른 mapper의 id와 중복시 구분하기 위함 -->
 <mapper namespace="com.shinhan.emp">
 	
+	<!-- 여러 부서들의 직원정보 조회 -->
+	<select id="selectByArray" parameterType="java.util.List" resultType="empVO">
+		select * 
+		from employees
+		where department_id in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+		order by 1
+	</select>
+	
 	<select id="selectAll" resultType="empVO">
 		select * from employees order by 1
 	</select>
 	
 	<select id="selectJoin2" parameterType="string" resultType="map">
-		select employee_id, first_name, salary, job_id, department_name, city, country_name
+		select employee_id, first_name, salary, job_id, department_name, city, country_name, job_title
 		from employees join departments using(department_id)
 					   join locations using(location_id)
 					   join countries USING (country_id)
-		where job_id = #{job}
+					   join jobs using (job_id)
+		<if test="job != '-1'">
+			where  job_id = #{job}
+		</if>
 	</select>
 	
 	<select id="selectAllJob" resultType="jobVO">
@@ -23,23 +37,30 @@
 	</select>
 	
 	<select id="selectJoin" parameterType="string" resultType="com.shinhan.myapp.emp.EmpJoinDTO">
-		select employee_id, first_name, salary, job_id, department_name, city, country_name 
+		select employee_id, first_name, salary, job_id, department_name, city, country_name, job_title 
 		from employees join departments using(department_id)
 					   join locations using(location_id)
 					   join countries USING (country_id)
-		where  job_id = #{job}
+					   join jobs using (job_id)
+		<if test="job != '-1'">
+			where  job_id = #{job}
+		</if>
 	</select>
 	
 	<select id="selectByDept" parameterType="int" resultType="empVO">
 		select * 
-		from employees 
-		where department_id = #{deptid}
+		from employees
+		<if test="deptid != -1">
+			where department_id = #{deptid}
+		</if> 
 	</select>
 
 	<select id="selectByJob" parameterType="string" resultType="empVO">
 		select * 
-		from employees 
-		where job_id = #{job}
+		from employees
+		<if test="job != '-1'">
+			where job_id = #{job}
+		</if> 
 	</select>
 
 	<select id="selectBySalary" parameterType="double" resultType="empVO">
@@ -91,7 +112,23 @@
 		job_id, salary, commission_pct, manager_id, department_id, employee_id)
 		values ( 
 		#{first_name}, #{last_name}, #{email}, #{phone_number}, #{hire_date},
-		#{job_id}, #{salary}, #{commission_pct}, #{manager_id}, #{department_id}, #{employee_id})
+		#{job_id}, #{salary}, #{commission_pct}, 
+		
+		<if test="manager_id == -1">
+			null,
+		</if>
+		<if test="manager_id != -1">
+			#{manager_id}, 
+		</if>
+		
+		<if test="department_id == -1">
+			null,	<!-- 부서가 없으면 jsp페이지에서 -1이 옴. 그러므로 null을 입력 -->
+		</if>
+		<if test="department_id != -1">
+			#{department_id}, 
+		</if>
+		#{employee_id}
+		)
 	</insert>
 	
 	<update id="update" parameterType="empVO">
@@ -104,8 +141,19 @@
 				JOB_ID=#{job_id},
 				SALARY=#{salary},
 				COMMISSION_PCT=#{commission_pct},
-				MANAGER_ID=#{manager_id},
-				DEPARTMENT_ID=#{department_id}
+				<if test="manager_id == -1">
+					MANAGER_ID=null,
+				</if>
+				<if test="manager_id != -1">
+					MANAGER_ID=#{manager_id}, 
+				</if>
+				
+				<if test="department_id == -1">
+					DEPARTMENT_ID=null	<!-- 부서가 없으면 jsp페이지에서 -1이 옴. 그러므로 null을 입력 -->
+				</if>
+				<if test="department_id != -1">
+					DEPARTMENT_ID=#{department_id} 
+				</if>
 		where EMPLOYEE_ID=#{employee_id}
 	</update>
 	
