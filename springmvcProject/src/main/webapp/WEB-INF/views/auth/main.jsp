@@ -12,10 +12,24 @@
   <h1>업무선택</h1>
   <ul>
     <li><a href="${path}/auth/login.do">로그인</a></li>
+  </ul>
+  <hr>
+  <h2>직원</h2>
+  <ul>
     <li><a href="${path}/emp/list.do">직원조회</a></li>
     <li><a href="${path}/emp/insert.do">직원입력</a></li>
+  </ul>
+  <hr>
+  <h2>부서</h2>
+  <ul>
     <li><a href="${path}/dept/list.do">부서조회</a></li>
     <li><a href="${path}/emp/insert.do">부서입력</a></li>
+  </ul>
+  <hr>
+  <h2>Board</h2>
+  <ul>
+    <li><a href="${path}/board/list.do">Board조회</a></li>
+    <li><a href="${path}/board/insert.do">Board입력</a></li>
   </ul>
 </body>
 </html>
