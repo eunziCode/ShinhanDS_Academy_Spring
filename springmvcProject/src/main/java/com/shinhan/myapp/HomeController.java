@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * <mvc:annotation-driven />
- * Spring은 POJO 방식
+ * Spring은 POJO 방식~
  */
 @Controller
 public class HomeController {
